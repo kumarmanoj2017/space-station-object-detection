@@ -263,14 +263,64 @@ export class DetectorComponent implements OnInit {
   testCharts() {
     console.log('Testing charts with sample data...');
     
-    // Set sample detection results
-    this.detectionResults = {
+    // Create temporary sample data for testing charts only
+    const sampleData = {
       toolbox: 3,
       oxygenTank: 2,
       fireExtinguisher: 1,
       processingTime: '0.5s'
     };
     
+    // Update charts with sample data without modifying actual detection results
+    this.updateChartsWithData(sampleData);
+  }
+
+  updateChartsWithData(data: any) {
+    // Update bar chart with provided data
+    this.barChartData = [
+      { 
+        data: [data.toolbox, data.oxygenTank, data.fireExtinguisher], 
+        label: 'Detections',
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.8)',
+          'rgba(54, 162, 235, 0.8)',
+          'rgba(255, 206, 86, 0.8)'
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)'
+        ],
+        borderWidth: 1
+      }
+    ];
+
+    // Update pie chart with provided data
+    this.pieChartData = [
+      { 
+        data: [data.toolbox, data.oxygenTank, data.fireExtinguisher],
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.8)',
+          'rgba(54, 162, 235, 0.8)',
+          'rgba(255, 206, 86, 0.8)'
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)'
+        ],
+        borderWidth: 1
+      }
+    ];
+
+    console.log('Charts updated with test data:', {
+      barChartData: this.barChartData,
+      pieChartData: this.pieChartData
+    });
+  }
+
+  resetChartsToActualData() {
+    // Reset charts to show actual detection results
     this.updateCharts();
   }
 
