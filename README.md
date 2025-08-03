@@ -190,7 +190,7 @@ OxygenTank 154 79 0.867 0.744 0.828 0.507
 - Supported formats: JPG, PNG, AVIF, etc.
 
 ### 2. Configure Settings
-- Adjust confidence threshold (fixed at 5% for optimal detection)
+- Adjust confidence threshold
 - Click "Detect Objects" to run inference
 
 ### 3. View Results
