@@ -1,0 +1,137 @@
+<!-- Hero Section -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-text">
+      <h1 class="hero-title">
+        🚀 Space Station Object Detector
+      </h1>
+      <p class="hero-subtitle">
+        Advanced AI-powered object detection system designed for space station environments. 
+        Detect Toolbox, Oxygen Tank, and Fire Extinguisher with pinpoint accuracy.
+      </p>
+      <div class="hero-buttons">
+        <button class="btn btn-primary btn-large" (click)="navigateToApp()">
+          🎯 Try Detection Now
+        </button>
+        <button class="btn btn-secondary btn-large" (click)="scrollToFeatures()">
+          📋 Learn More
+        </button>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-image">
+        <div class="space-station-icon">🛰️</div>
+        <div class="detection-overlay">
+          <div class="detection-box toolbox">🧰</div>
+          <div class="detection-box oxygen">🫧</div>
+          <div class="detection-box fire">🧯</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats Section -->
+<section id="stats" class="stats-section">
+  <div class="container">
+    <h2 class="section-title">🚀 Performance Metrics</h2>
+    <div class="stats-grid">
+      <div class="stat-card" *ngFor="let stat of stats">
+        <div class="stat-number">{{ stat.number }}</div>
+        <div class="stat-label">{{ stat.label }}</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section id="features" class="features-section">
+  <div class="container">
+    <h2 class="section-title">✨ Key Features</h2>
+    <div class="features-grid">
+      <div class="feature-card" *ngFor="let feature of features">
+        <div class="feature-icon">{{ feature.icon }}</div>
+        <h3 class="feature-title">{{ feature.title }}</h3>
+        <p class="feature-description">{{ feature.description }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Technology Section -->
+<section class="tech-section">
+  <div class="container">
+    <h2 class="section-title">🛠️ Technology Stack</h2>
+    <div class="tech-grid">
+      <div class="tech-item">
+        <div class="tech-icon">🤖</div>
+        <h4>YOLOv8</h4>
+        <p>State-of-the-art object detection</p>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon">⚛️</div>
+        <h4>Angular 15</h4>
+        <p>Modern frontend framework</p>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon">🐍</div>
+        <h4>Python Flask</h4>
+        <p>Robust backend API</p>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon">📊</div>
+        <h4>Chart.js</h4>
+        <p>Interactive data visualization</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-content">
+      <h2 class="cta-title">Ready to Explore Space Station Detection?</h2>
+      <p class="cta-subtitle">
+        Experience the power of AI-driven object detection in space environments. 
+        Upload an image and see the magic happen!
+      </p>
+      <button class="btn btn-primary btn-large" (click)="navigateToApp()">
+        🚀 Launch Detection App
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>🚀 Space Station Object Detector</h3>
+        <p>Advanced AI-powered object detection for space station environments.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Features</h4>
+        <ul>
+          <li>Object Detection</li>
+          <li>Real-time Analytics</li>
+          <li>Position Tracking</li>
+          <li>Mobile Responsive</li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Technology</h4>
+        <ul>
+          <li>YOLOv8</li>
+          <li>Angular 15</li>
+          <li>Python Flask</li>
+          <li>Chart.js</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 Space Station Object Detector. Built for the Duality AI Space Station Hackathon.</p>
+    </div>
+  </div>
+</footer> 

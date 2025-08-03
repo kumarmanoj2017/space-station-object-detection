@@ -1,0 +1,158 @@
+<div class="container">
+    <header class="header">
+      <h1 style="color: #000;">🚀 Space Station Object Detector</h1>
+    </header>
+  
+    <div class="card main-content">
+      <div class="grid-two-cols">
+        <!-- Input Image Section -->
+        <div class="panel">
+          <h2>📷 Input Image</h2>
+          <div class="upload-section">
+            <div class="file-input-container">
+              <label for="fileInput" class="file-input-label">Choose Image File</label>
+              <input type="file" (change)="onFileSelected($event)" accept="image/*" class="file-input" id="fileInput">
+            </div>
+            <button class="btn btn-secondary" (click)="clearImage()">Clear</button>
+          </div>
+          <div *ngIf="imagePreview" class="image-preview">
+                          <div class="image-container">
+                <img [src]="imagePreview" alt="Preview" #imageElement (load)="onImageLoad()">
+                              <!-- Bounding Box Overlays -->
+                <div *ngFor="let detection of detailedDetections; let i = index" 
+                     class="bounding-box"
+                     [style.left]="(detection.scaledPosition?.x1 || detection.position.x1) + 'px'"
+                     [style.top]="(detection.scaledPosition?.y1 || detection.position.y1) + 'px'"
+                     [style.width]="(detection.scaledPosition?.width || detection.position.width) + 'px'"
+                     [style.height]="(detection.scaledPosition?.height || detection.position.height) + 'px'"
+                     [style.border-color]="getBoundingBoxColor(detection.class)">
+                  <div class="bbox-label" [style.background-color]="getBoundingBoxColor(detection.class)">
+                    {{ detection.class }} #{{ i + 1 }}
+                  </div>
+                </div>
+             </div>
+          </div>
+        </div>
+  
+        <!-- Settings Panel -->
+        <div class="panel">
+          <h2>⚙️ Detection Settings</h2>
+          <div class="setting-item">
+            <label for="confidence" class="setting-label">Confidence Threshold: {{ (confidenceThreshold * 100).toFixed(0) }}%</label>
+            <input id="confidence" type="range" [(ngModel)]="confidenceThreshold" min="0.1" max="1" step="0.1" class="slider">
+            <div class="slider-labels">
+              <span>10%</span>
+              <span>50%</span>
+              <span>100%</span>
+            </div>
+          </div>
+          <div class="button-group">
+            <button class="btn btn-primary mt-2" (click)="detectObjects()">🔍 Detect Objects</button>
+            <button class="btn btn-secondary mt-2" (click)="testCharts()">🧪 Test Charts</button>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Detection Results -->
+      <div class="results-section">
+        <h2 style="color: #000;">🎯 Detection Results</h2>
+        <div class="results-grid">
+          <div class="result-card">
+            <div class="icon">🧰</div>
+            <div class="label" style="color: #000;">Toolbox</div>
+            <div class="value">{{ detectionResults.toolbox }}</div>
+          </div>
+          <div class="result-card">
+            <div class="icon">🫧</div>
+            <div class="label" style="color: #000;">Oxygen Tank</div>
+            <div class="value">{{ detectionResults.oxygenTank }}</div>
+          </div>
+          <div class="result-card">
+            <div class="icon">🧯</div>
+            <div class="label" style="color: #000;">Fire Extinguisher</div>
+            <div class="value">{{ detectionResults.fireExtinguisher }}</div>
+          </div>
+          <div class="result-card">
+            <div class="icon">⏱️</div>
+            <div class="label" style="color: #000;">Processing Time</div>
+            <div class="value">{{ detectionResults.processingTime }}</div>
+          </div>
+        </div>
+        
+                  <!-- Detailed Detection Results -->
+          <div *ngIf="detailedDetections.length > 0" class="detection-details">
+            <h3>🎯 Detected Objects with Position Details</h3>
+            <div class="detection-list">
+              <div *ngFor="let detection of detailedDetections; let i = index" class="detection-item">
+                <div class="detection-header">
+                  <span class="detection-class">
+                    {{ detection.class }} #{{ i + 1 }}
+                  </span>
+                  <span class="confidence-badge">
+                    {{ detection.confidencePercent }}% Confidence
+                  </span>
+                </div>
+               
+               <div class="position-details">
+                 <div class="position-grid">
+                   <div class="position-item">
+                     <strong>Top-Left:</strong> ({{ detection.position.x1 }}, {{ detection.position.y1 }})
+                   </div>
+                   <div class="position-item">
+                     <strong>Bottom-Right:</strong> ({{ detection.position.x2 }}, {{ detection.position.y2 }})
+                   </div>
+                   <div class="position-item">
+                     <strong>Center:</strong> ({{ detection.position.centerX }}, {{ detection.position.centerY }})
+                   </div>
+                   <div class="position-item">
+                     <strong>Size:</strong> {{ detection.position.width }} × {{ detection.position.height }} px
+                   </div>
+                 </div>
+                 
+                 <div class="bbox-info">
+                   <strong>Bounding Box:</strong> [{{ detection.bbox[0].toFixed(1) }}, {{ detection.bbox[1].toFixed(1) }}, {{ detection.bbox[2].toFixed(1) }}, {{ detection.bbox[3].toFixed(1) }}]
+                 </div>
+               </div>
+             </div>
+           </div>
+         </div>
+         
+         <!-- No Detections Message -->
+         <div *ngIf="detailedDetections.length === 0 && detectionResults.processingTime !== '0s'" class="no-detections">
+           <p>🔍 No objects detected with the current confidence threshold.</p>
+           <p>Try uploading a different image.</p>
+         </div>
+       </div>
+
+       <!-- Charts Section -->
+       <div class="charts-section">
+         <h2 style="color: #000;">📊 Analytics & Charts</h2>
+         
+         <div class="charts-grid">
+           <!-- Bar Chart -->
+           <div class="chart-container">
+             <h3>Detection Counts</h3>
+             <canvas baseChart
+               [datasets]="barChartData"
+               [labels]="barChartLabels"
+               [options]="barChartOptions"
+               [legend]="barChartLegend"
+               chartType="bar">
+             </canvas>
+           </div>
+
+           <!-- Pie Chart -->
+           <div class="chart-container">
+             <h3>Detection Distribution</h3>
+             <canvas baseChart
+               [datasets]="pieChartData"
+               [labels]="pieChartLabels"
+               [options]="pieChartOptions"
+               [legend]="pieChartLegend"
+               chartType="pie">
+             </canvas>
+           </div>
+         </div>
+       </div>
+     </div>
+   </div> 
