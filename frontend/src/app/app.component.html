@@ -1,0 +1,117 @@
+<div class="container">
+    <header class="header">
+      <h1>🚀 Space Station Object Detector</h1>
+    </header>
+  
+    <div class="card main-content">
+      <div class="grid-two-cols">
+        <!-- Input Image Section -->
+        <div class="panel">
+          <h2>📷 Input Image</h2>
+          <div class="upload-section">
+            <input type="file" (change)="onFileSelected($event)" accept="image/*" class="file-input" id="fileInput">
+            <button class="btn btn-secondary" (click)="clearImage()">Clear</button>
+          </div>
+          <div *ngIf="imagePreview" class="image-preview">
+            <img [src]="imagePreview" alt="Preview">
+          </div>
+        </div>
+  
+        <!-- Settings Panel -->
+        <div class="panel">
+          <h2>⚙️ Detection Settings</h2>
+          <label for="confidence">Confidence Threshold: {{ (confidenceThreshold * 100).toFixed(0) }}%</label>
+          <input id="confidence" type="range" [(ngModel)]="confidenceThreshold" min="0.1" max="1" step="0.1" class="slider">
+          <div class="slider-labels">
+            <span>10%</span>
+            <span>50%</span>
+            <span>100%</span>
+          </div>
+          <button class="btn btn-primary mt-2" (click)="detectObjects()">🔍 Detect Objects</button>
+          <button class="btn btn-secondary mt-2" (click)="testCharts()" style="margin-left: 10px;">🧪 Test Charts</button>
+        </div>
+      </div>
+  
+      <!-- Detection Results -->
+      <div class="results-section">
+        <h2>🎯 Detection Results</h2>
+        <div class="results-grid">
+          <div class="result-card">
+            <div class="icon">🧰</div>
+            <div class="label" style="color: #000;">Toolbox</div>
+            <div class="value">{{ detectionResults.toolbox }}</div>
+          </div>
+          <div class="result-card">
+            <div class="icon">🫧</div>
+            <div class="label" style="color: #000;">Oxygen Tank</div>
+            <div class="value">{{ detectionResults.oxygenTank }}</div>
+          </div>
+          <div class="result-card">
+            <div class="icon">🧯</div>
+            <div class="label" style="color: #000;">Fire Extinguisher</div>
+            <div class="value">{{ detectionResults.fireExtinguisher }}</div>
+          </div>
+          <div class="result-card">
+            <div class="icon">⏱️</div>
+            <div class="label" style="color: #000;">Processing Time</div>
+            <div class="value">{{ detectionResults.processingTime }}</div>
+          </div>
+        </div>
+        
+        <!-- Detailed Detection Results -->
+        <div *ngIf="detailedDetections.length > 0" class="detection-details">
+          <h3>🎯 Detected Objects</h3>
+          <div class="detection-list">
+            <div *ngFor="let detection of detailedDetections; let i = index" class="detection-item">
+              <div class="detection-info">
+                <span class="detection-class" style="color: #000; font-size: 1.2rem;
+    font-weight: 700;">{{ detection.class }}</span>
+              </div>
+              <!-- <div class="detection-coordinates">
+                Position: ({{ detection.bbox[0].toFixed(0) }}, {{ detection.bbox[1].toFixed(0) }}) - 
+                ({{ detection.bbox[2].toFixed(0) }}, {{ detection.bbox[3].toFixed(0) }})
+              </div> -->
+            </div>
+          </div>
+        </div>
+        
+        <!-- No Detections Message -->
+        <div *ngIf="detailedDetections.length === 0 && detectionResults.processingTime !== '0s'" class="no-detections">
+          <p>🔍 No objects detected with the current confidence threshold.</p>
+          <p>Try uploading a different image.</p>
+        </div>
+      </div>
+
+      <!-- Charts Section -->
+      <div class="charts-section">
+        <h2 style="color: #000;">📊 Analytics & Charts</h2>
+        
+        <div class="charts-grid">
+          <!-- Bar Chart -->
+          <div class="chart-container">
+            <h3>Detection Counts</h3>
+            <canvas baseChart
+              [datasets]="barChartData"
+              [labels]="barChartLabels"
+              [options]="barChartOptions"
+              [legend]="barChartLegend"
+              chartType="bar">
+            </canvas>
+          </div>
+
+          <!-- Pie Chart -->
+          <div class="chart-container">
+            <h3>Detection Distribution</h3>
+            <canvas baseChart
+              [datasets]="pieChartData"
+              [labels]="pieChartLabels"
+              [options]="pieChartOptions"
+              [legend]="pieChartLegend"
+              chartType="pie">
+            </canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
