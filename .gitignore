@@ -304,8 +304,8 @@ ehthumbs.db
 Thumbs.db
 
 # Project specific
-runs/
-*.pt
+# runs/  # Commented out to allow trained model upload
+# *.pt  # Commented out to allow trained model upload
 *.pth
 *.onnx
 *.tflite
